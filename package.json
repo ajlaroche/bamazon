@@ -1,0 +1,24 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "A mysql application for customers ordering product and tracking inventory",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajlaroche/bamazon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajlaroche/bamazon/issues"
+  },
+  "homepage": "https://github.com/ajlaroche/bamazon#readme",
+  "dependencies": {
+    "chalk": "^2.3.2",
+    "inquirer": "^5.2.0"
+  }
+}
