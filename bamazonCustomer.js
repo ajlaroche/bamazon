@@ -14,6 +14,7 @@ var connection = mysql.createConnection({
     database: "bamazon_db"
 });
 
+//Display an offer sheet for the customer
 connection.connect(function (err) {
     if (err) throw err;
     console.log(`connected as id ${connection.threadId}\n`)
@@ -28,53 +29,68 @@ function offer() {
     });
 }
 
+var purchaseValue = 0;
 function userRequest() {
+
     connection.query("SELECT * FROM products", function (err, result) {
         var itemArrNumber = 0;
+
         inquirer.prompt([
             {
                 type: "input",
-                message: "What is the ID of the item you would like to buy?",
+                message: "What is the ID of the item you would like to buy? [0 to quit]",
                 name: "purchaseID",
                 validate: function (input) {
-                    var idTest = false;
-                    for (var i = 0; i < result.length; i++) {
-                        if (parseInt(input) === parseInt(result[i].item_id)) {
-                            idTest = true;
-                            itemArrNumber = i;
-                            break;
+                    if (parseInt(input) === 0) {
+                        var idTest = true;
+                    } else {
+                        var idTest = false;
+                        for (var i = 0; i < result.length; i++) {
+                            if (parseInt(input) === parseInt(result[i].item_id)) {
+                                idTest = true;
+                                itemArrNumber = i;
+                                break;
+                            }
                         }
                     }
                     if (idTest === true) {
                         return idTest;
                     } else {
-                        console.log("\n\nPlease choose from the list of IDs displayed\n")
+                        console.log(chalk.bold.red("\n\nPlease choose from the list of IDs displayed\n"));
                     }
                 }
             },
             {
                 type: "input",
-                message: "How many woulld you like to buy?",
+                message: "How many would you like to buy? [0 to quit]",
                 name: "quantity",
                 validate: function (input) {
                     if (parseInt(input) <= parseInt(result[itemArrNumber].stock_quantity)) {
                         return true;
                     } else {
-                        console.log("\n\nWe don't have enough in stock, please pick a different quantity\n")
+                        console.log(chalk.bold.red("\n\nWe don't have enough in stock, please pick a different quantity\n"));
                     }
                 }
             }]).then(function (answer) {
-                var quantityRemain = parseInt(result[itemArrNumber].stock_quantity) - parseInt(answer.quantity);
-                var purchaseValue = parseInt(answer.quantity) * parseFloat(result[itemArrNumber].price);
-                updateInventory(quantityRemain, answer.purchaseID, purchaseValue, parseFloat(result[itemArrNumber].product_sales));
-                console.log(`Thank you for your purchase, you owe ${purchaseValue} dollars.`)
+                if (parseInt(answer.purchaseID) === 0) {
+                    console.log(chalk.bold.green(`Thank you for your purchase, you owe ${purchaseValue} dollars.`));
+                    connection.end();
+                } else {
+                    var quantityRemain = parseInt(result[itemArrNumber].stock_quantity) - parseInt(answer.quantity);
+                    var itemValue = parseInt(answer.quantity) * parseFloat(result[itemArrNumber].price)
+                    purchaseValue = purchaseValue + itemValue;
+                    updateInventory(quantityRemain, answer.purchaseID, itemValue, parseFloat(result[itemArrNumber].product_sales));
+                    // console.log(purchaseValue);
+                    userRequest();
+
+                }
             })
     })
 }
 
 
-function updateInventory(remains, item, purchaseValue, productSales) {
-    var totalProductSales = productSales + purchaseValue;
+function updateInventory(remains, item, itemValue, productSales) {
+    var totalProductSales = productSales + itemValue;
     var query = connection.query("UPDATE products SET ? WHERE ?", [
         {
             stock_quantity: remains,
@@ -85,7 +101,7 @@ function updateInventory(remains, item, purchaseValue, productSales) {
         }
     ], function (err, res) {
         if (err) throw err;
-        console.log(`${res.affectedRows} product updated!\n`);
+        // console.log(`${res.affectedRows} product updated!\n`);
     });
 
 }
