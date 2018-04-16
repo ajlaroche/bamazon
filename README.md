@@ -21,4 +21,8 @@ Here is the manager's low inventory view:
 
 Here is a video of custormer interface
 
-![Alt text](https://cl.ly/0F1U1y121x3n)
+![Alt text](http://f.cl.ly/items/1N2n1x081h432G160b09/Screen%20Recording%202018-04-15%20at%2010.35.14.18%20PM.mp4)
+
+Here is a video fo the Manager view
+
+![Alt text](http://f.cl.ly/items/1N2n1x081h432G160b09/Screen%20Recording%202018-04-15%20at%2010.35.14.18%20PM.mp4)
