@@ -135,3 +135,5 @@ VALUES (
 
 SELECT * FROM products;
 
+SELECT * FROM departments;
+

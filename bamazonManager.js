@@ -52,6 +52,7 @@ function offer() {
         if (err) throw err;
         console.table(result);
         console.log("-----------------------------------");
+        connection.end();
     });
 }
 
@@ -60,6 +61,7 @@ function lowInventory() {
         if (err) throw err;
         console.table(result);
         console.log("-----------------------------------");
+        connection.end();
     });
 }
 function addInventory() {
@@ -85,7 +87,7 @@ function addInventory() {
                     if (idTest === true) {
                         return idTest;
                     } else {
-                        console.log("\n\nPlease choose from the list of IDs displayed\n")
+                        console.log(chalk.bold.red("\n\nPlease choose from the list of IDs displayed\n"));
                     }
                 }
             },
@@ -107,6 +109,7 @@ function addInventory() {
                 if (err) throw err;
                 console.log(`${answer.added} ${result[itemArrNumber].product_name} have been to your inventory for a new total of ${newTotal}`);
                 console.log("-----------------------------------");
+                connection.end();
             });
         })
 
@@ -115,38 +118,70 @@ function addInventory() {
 }
 
 function newProduct() {
-    inquirer.prompt([
-        {
-            type: "input",
-            message: "What is the name of the new product you would like to add?",
-            name: "productName"
-        },
-        {
-            type: "input",
-            message: "To which department?",
-            name: "department"
-        },
-        {
-            type: "input",
-            message: "What is this product price?",
-            name: "price"
-        },
-        {
-            type: "input",
-            message: "How many would you like to add?",
-            name: "quantity"
-        }
-    ]).then(function (answer) {
-        connection.query("INSERT INTO products SET ?",
+    connection.query("SELECT department_name FROM departments", function (error, result) {
+        console.table(result);
+        inquirer.prompt([
             {
-                product_name: answer.productName,
-                department_name: answer.department,
-                price: answer.price,
-                stock_quantity: answer.quantity
-            }, function (err) {
-                if (err) throw err;
-                console.log("Your product has been successfully added!");
+                type: "input",
+                message: "What is the name of the new product you would like to add?",
+                name: "productName"
+            },
+            {
+                type: "input",
+                message: "To which department?",
+                name: "department",
+                validate: function (input) {
+                    var test = false;
+                    for (var i = 0; i < result.length; i++) {
+                        if (input === result[i].department_name) {
+                            test = true;
+                            break;
+                        }
+                    }
+                    if (test === false) {
+                        console.log(chalk.bold.red("\nThis department does not exist, please enter a valid department"));
+                    } else {
+                        return true;
+                    }
+                }
+            },
+            {
+                type: "input",
+                message: "What is this product price?",
+                name: "price",
+                validate: function (input) {
+                    if (isNaN(input)) {
+                        console.log(chalk.bold.red("\nPlease enter a valid price"));
+                    } else {
+                        return true;
+                    }
+                }
+            },
+            {
+                type: "input",
+                message: "How many would you like to add?",
+                name: "quantity",
+                validate: function (input) {
+                    if (isNaN(input)) {
+                        console.log(chalk.bold.red("\nPlease enter a valid quantity"));
+                    } else {
+                        return true;
+                    }
+                }
             }
-        )
+        ]).then(function (answer) {
+            connection.query("INSERT INTO products SET ?",
+                {
+                    product_name: answer.productName,
+                    department_name: answer.department,
+                    price: answer.price,
+                    stock_quantity: answer.quantity
+                }, function (err) {
+                    if (err) throw err;
+                    console.log(chalk.bold.green("Your product has been successfully added!"));
+                    connection.end();
+                }
+            )
+        })
     })
 }

@@ -82,7 +82,6 @@ function userRequest() {
                     updateInventory(quantityRemain, answer.purchaseID, itemValue, parseFloat(result[itemArrNumber].product_sales));
                     // console.log(purchaseValue);
                     userRequest();
-
                 }
             })
     })
