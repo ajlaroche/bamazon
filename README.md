@@ -28,5 +28,4 @@ Here is a snapshot of the bonus Superview report of product sales and profits by
 
 ![Alt text](./images/supervisorProductSales.jpg)
 
-Here is [link to the bonus supervisor view video]
-(http://f.cl.ly/items/3J3x3m2f442b1F1t093P/Screen%20Recording%202018-04-19%20at%2002.57.00.36%20PM.mp4)
+Here is a [link to the bonus supervisor view video](http://f.cl.ly/items/3J3x3m2f442b1F1t093P/Screen%20Recording%202018-04-19%20at%2002.57.00.36%20PM.mp4)
