@@ -73,7 +73,7 @@ function userRequest() {
                 }
             }]).then(function (answer) {
                 if (parseInt(answer.purchaseID) === 0) {
-                    console.log(chalk.bold.green(`Thank you for your purchase, you owe ${purchaseValue} dollars.`));
+                    console.log(chalk.bold.green(`Thank you for your purchase, you owe ${purchaseValue.toFixed(2)} dollars.`));
                     connection.end();
                 } else {
                     var quantityRemain = parseInt(result[itemArrNumber].stock_quantity) - parseInt(answer.quantity);

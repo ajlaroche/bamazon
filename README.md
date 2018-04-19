@@ -22,3 +22,11 @@ Here is the manager's low inventory view:
 Here is a [link to custormer interface video](http://f.cl.ly/items/1N2n1x081h432G160b09/Screen%20Recording%202018-04-15%20at%2010.35.14.18%20PM.mp4)
 
 Here is a [link to the Manager view video](http://f.cl.ly/items/3U440N240o2Q0c0t3944/Screen%20Recording%202018-04-15%20at%2010.46.29.66%20PM.mp4)
+
+
+Here is a snapshot of the bonus Superview report of product sales and profits by department:
+
+![Alt text](./images/supervisorProductSales.jpg)
+
+Here is [link to the bonus supervisor view video]
+(http://f.cl.ly/items/3J3x3m2f442b1F1t093P/Screen%20Recording%202018-04-19%20at%2002.57.00.36%20PM.mp4)
